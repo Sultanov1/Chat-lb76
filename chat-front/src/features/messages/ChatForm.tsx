@@ -3,11 +3,13 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import {useAppDispatch} from '../../app/hooks.ts';
 import {createMessage} from './chatThunk.ts';
 import dayjs from 'dayjs';
+import {useNavigate} from 'react-router-dom';
 
 const ChatForm = () => {
   const [message, setMessage] = useState<string>('');
   const [author, setAuthor] = useState<string>('');
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -21,6 +23,7 @@ const ChatForm = () => {
     dispatch(createMessage(newChat))
     setAuthor('');
     setMessage('');
+    navigate('/');
   };
 
   return (

@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {Chat} from '../../types.ts';
-import {createMessage} from './chatThunk.ts';
+import {createMessage, fetchMessage} from './chatThunk.ts';
 
 export interface ChatSlice {
   chats: Chat[];
@@ -29,7 +29,25 @@ const chatSlice = createSlice({
       .addCase(createMessage.rejected, (state) => {
         state.error = true;
       });
+    builder
+      .addCase(fetchMessage.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchMessage.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.chats = action.payload;
+      })
+      .addCase(fetchMessage.rejected, (state) => {
+        state.error = true;
+      });
+  },
+  selectors: {
+    selectMessages: (state) => state.chats,
   }
 });
 
 export const chatReducer = chatSlice.reducer;
+
+export const {
+  selectMessages
+} = chatSlice.selectors;
