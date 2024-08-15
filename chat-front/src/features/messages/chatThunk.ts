@@ -10,5 +10,10 @@ export const createMessage = createAsyncThunk<void, MessageMutation>('messages/c
 export const fetchMessage = createAsyncThunk<Chat[]>('messages/fetch', async () => {
   const {data: messages} = await axiosApi.get<Chat[]>('/messages');
   return messages;
-})
+});
+
+export const deleteMessage = createAsyncThunk<string, string>('messages/deleteMessage', async (messageId) => {
+  const {data: messages} = await axiosApi.delete(`/messages/${messageId}`);
+  return messages;
+});
 

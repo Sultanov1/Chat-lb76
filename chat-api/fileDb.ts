@@ -25,6 +25,15 @@ const fileDb = {
     await this.save();
     return message;
   },
+  async deleteItem(id: string) {
+    const messageLength = data.length;
+    data = data.filter((message) => message.id !== id);
+    if (data.length < messageLength) {
+      await this.save();
+      return true;
+    }
+    return false;
+  },
   async save() {
     return fs.writeFile(filename, JSON.stringify(data, null, 2));
   }

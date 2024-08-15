@@ -42,4 +42,20 @@ messagesRouter.post('/', async (req, res) => {
   return res.send(savedProduct);
 })
 
+messagesRouter.delete('/:id', async (req, res) => {
+  const {id}  = req.params;
+
+  try {
+    const deletedMessage = await fileDb.deleteItem(id);
+
+    if (!deletedMessage) {
+      return res.status(404).send({ error: 'Message not found' });
+    }
+
+    return res.send({ success: true });
+  } catch (error) {
+    return res.status(400).send({ error: 'Failed to delete message' });
+  }
+})
+
 export default messagesRouter;
